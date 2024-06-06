@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """ element length """
-
-
 from typing import Sequence, Tuple, List
 
 
