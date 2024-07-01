@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """ Test for utils.py """
 import unittest
-from utils import access_nested_map
+from utils import access_nested_map, get_json, memoize
 from unittest.mock import patch
-from utils import get_json
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -31,6 +30,7 @@ class TestGetJson(unittest.TestCase):
     """Test get_json function"""
     @patch("requests.get")
     def test_get_json(self, mock_requests_get):
+        """Tests get_json function"""
         # Mock response payload
         test_payload = {"payload": True}
 
@@ -47,6 +47,38 @@ class TestGetJson(unittest.TestCase):
         result2 = get_json("http://holberton.io")
         self.assertEqual(result2, test_payload)
         mock_requests_get.assert_called_once_with("http://holberton.io")
+
+
+class TestMemoize(unittest.TestCase):
+    """Test memoize function"""
+    class TestClass:
+        """ Test class with memoized method and property """
+        def a_method(self):
+            return 42
+
+        @memoize
+        def a_property(self):
+            """Memoized property"""
+            return self.a_method()
+
+    def test_memoize(self):
+        """Tests memoize function"""
+        # Create an instance of TestClass
+        test_instance = self.TestClass()
+
+        # Mock a_method
+        with patch.object(test_instance, "a_method") as mock_a_method:
+            # Call a_property twice
+            result1 = test_instance.a_property()
+            result2 = test_instance.a_property()
+
+            # Assert that a_method was called only once
+            mock_a_method.assert_called_once()
+
+            # Assert that the results are correct
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
+
 
 
 if __name__ == "__main__":
