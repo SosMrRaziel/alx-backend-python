@@ -9,6 +9,7 @@ from utils import get_json
 class TestAccessNestedMap(unittest.TestCase):
     """Test access_nested_map function"""
     def test_access_nested_map(self):
+        """Tests access_nested_map with the specified inputs."""
         # Test case 1: nested_map={"a": 1}, path=("a",)
         self.assertEqual(access_nested_map({"a": 1}, ("a",)), 1)
 
@@ -27,6 +28,7 @@ class TestAccessNestedMap(unittest.TestCase):
 
 
 class TestGetJson(unittest.TestCase):
+    """Test get_json function"""
     @patch("requests.get")
     def test_get_json(self, mock_requests_get):
         # Mock response payload
